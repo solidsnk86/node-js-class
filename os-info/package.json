@@ -1,0 +1,45 @@
+{
+  "name": "os-info",
+  "version": "1.0.0",
+  "description": "Aplicación para ver información del sistema.",
+  "main": "index.mjs",
+  "bin": {
+    "os-info": "./index.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solidsnk86/node-js-class.git"
+  },
+  "keywords": [
+    "system",
+    "info",
+    "información",
+    "del",
+    "sistema"
+  ],
+  "author": "Calcagni Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solidsnk86/node-js-class/issues"
+  },
+  "homepage": "https://github.com/solidsnk86/node-js-class#readme",
+  "pkg": {
+    "scripts": "index.mjs",
+    "assets": [
+      "node_modules/open/xdg-open"
+    ],
+    "targets": [
+      "node18-linux-x64",
+      "node18-macos-x64",
+      "node18-win-x64"
+    ]
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "open": "^8.0.0",
+    "picocolors": "^1.0.0"
+  }
+}

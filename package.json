@@ -1,0 +1,36 @@
+{
+  "name": "system-info",
+  "version": "1.0.0",
+  "description": "Información del sistema",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solidsnk86/node-js-class.git"
+  },
+  "keywords": [
+    "curso",
+    "nodejs",
+    "solidsnk86"
+  ],
+  "author": "Calcagni Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solidsnk86/node-js-class/issues"
+  },
+  "homepage": "https://github.com/solidsnk86/node-js-class#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.19.2",
+    "open": "10.1.0",
+    "picocolors": "1.0.1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  }
+}
