@@ -6,7 +6,7 @@ import open from 'open'
 const { model } = os.cpus().shift()
 const { speed } = os.cpus().shift()
 
-function formatInfoSO () {
+function formatInfoSO() {
   const so = os.type().replace('_NT', ' ')
   const rel = os.release().replace(/.0.19045/, '')
   const arch = os.arch().replace('x64', ' x64,')
