@@ -1,6 +1,4 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "editor.guides.bracketPairs": "active",
   "editor.cursorBlinking": "expand",
@@ -11,6 +9,10 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
   },
+  "importCost.javascriptExtensions": [
+    "\\.jsx?$"
+  ],
+  "importCost.bundleSizeColoring": "compressed",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "liveServer.settings.port": 3000
 }

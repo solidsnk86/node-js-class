@@ -11,7 +11,7 @@ const client = new MongoClient(uri, {
   }
 })
 
-async function connect() {
+async function connect () {
   try {
     await client.connect()
     const database = client.db('database')
@@ -24,7 +24,7 @@ async function connect() {
 }
 
 export class MovieModel {
-  static async getAll({ genre }) {
+  static async getAll ({ genre }) {
     const db = await connect()
 
     if (genre) {
@@ -43,13 +43,13 @@ export class MovieModel {
     return db.find({}).toArray()
   }
 
-  static async getById({ id }) {
+  static async getById ({ id }) {
     const db = await connect()
     const objectId = new ObjectId(id)
     return db.findOne({ _id: objectId })
   }
 
-  static async create({ input }) {
+  static async create ({ input }) {
     const db = await connect()
 
     const { insertedId } = await db.insertOne(input)
@@ -60,14 +60,14 @@ export class MovieModel {
     }
   }
 
-  static async delete({ id }) {
+  static async delete ({ id }) {
     const db = await connect()
     const objectId = new ObjectId(id)
     const { deletedCount } = await db.deleteOne({ _id: objectId })
     return deletedCount > 0
   }
 
-  static async update({ id, input }) {
+  static async update ({ id, input }) {
     const db = await connect()
     const objectId = new ObjectId(id)
 

@@ -1,16 +1,16 @@
-import os from 'node:os';
-import fs from 'node:fs/promises';
-import pc from 'picocolors';
-import open from 'open';
+import os from 'node:os'
+import fs from 'node:fs/promises'
+import pc from 'picocolors'
+import open from 'open'
 
-const { model } = os.cpus().shift();
-const { speed } = os.cpus().shift();
+const { model } = os.cpus().shift()
+const { speed } = os.cpus().shift()
 
-function formatInfoSO() {
-  const so = os.type();
-  const arch = os.arch().replace('x64', ' 64 bits');
-  const rel = ` versión(${os.release()})`;
-  return `${so + arch + rel}`;
+function formatInfoSO () {
+  const so = os.type()
+  const arch = os.arch().replace('x64', ' 64 bits')
+  const rel = ` versión(${os.release()})`
+  return `${so + arch + rel}`
 }
 
 const createTemplate = () => `<!DOCTYPE html>
@@ -52,11 +52,11 @@ const createTemplate = () => `<!DOCTYPE html>
 
 (async () => {
   try {
-    const filePath = 'system-info.html';
-    await fs.writeFile(filePath, createTemplate());
-    console.log(pc.green('Archivo HTML creado exitosamente.'));
-    await open(filePath);
+    const filePath = 'system-info.html'
+    await fs.writeFile(filePath, createTemplate())
+    console.log(pc.green('Archivo HTML creado exitosamente.'))
+    await open(filePath)
   } catch (error) {
-    console.error('Error al crear el archivo HTML.', error);
+    console.error('Error al crear el archivo HTML.', error)
   }
-})();
+})()
