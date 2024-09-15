@@ -1,50 +1,50 @@
-import mysql from "mysql2/promise";
+import mysql from 'mysql2/promise'
 
 const config = {
-  host: "localhost",
-  user: "root",
-  port: "3306",
-  password: "miPerroMañosoNeo.2018",
-  database: "moviesdb",
-};
+  host: 'localhost',
+  user: 'root',
+  port: '3306',
+  password: 'miPerroMañosoNeo.2018',
+  database: 'moviesdb'
+}
 
-const connection = await mysql.createConnection(config);
+const connection = await mysql.createConnection(config)
 
 export class MovieModel {
-  static async getAll({ genre }) {
+  static async getAll ({ genre }) {
     if (genre) {
-      const lowerCaseGenre = genre.toLowerCase();
+      const lowerCaseGenre = genre.toLowerCase()
 
       const [genres] = await connection.query(
-        "SELECT id, name FROM genre WHERE LOWER(name) = ?;",
+        'SELECT id, name FROM genre WHERE LOWER(name) = ?;',
         [lowerCaseGenre]
-      );
+      )
 
-      if (genres.length === 0) return [];
+      if (genres.length === 0) return []
 
-      const [{ id }] = genres;
+      const [{ id }] = genres
 
-      return [];
+      return [id]
     }
 
     const [movies] = await connection.query(
-      "SELECT title, year, director, poster, rate, BIN_TO_UUID(id) FROM movie;"
-    );
-    if (movies.length === 0) return null;
+      'SELECT title, year, director, poster, rate, BIN_TO_UUID(id) FROM movie;'
+    )
+    if (movies.length === 0) return null
 
-    return movies;
+    return movies
   }
 
-  static async getById({ id }) {
+  static async getById ({ id }) {
     const [movies] = await connection.query(
       `SELECT title, year, director, poster, rate, BIN_TO_UUID(id) 
         FROM movie WHERE id = UUID_TO_BIN(?);`,
       [id]
-    );
-    return movies[0];
+    )
+    return movies[0]
   }
 
-  static async create({ input }) {
+  static async create ({ input }) {
     const {
       genre: genreInput,
       title,
@@ -52,18 +52,18 @@ export class MovieModel {
       duration,
       director,
       poster,
-      rate,
-    } = input;
+      rate
+    } = input
 
     const result = await connection.query(`
     INSERT INTO movie (title, year, director, duration, poster, rate)
     VALUES (?, ? ,?, ?, ?, ?);,`,
     [title, year, duration, director, poster, rate]
-    );
+    )
     console.log(result)
   }
 
-  static async delete({ id }) {}
+  static async delete ({ id }) {}
 
-  static async update({ id, input }) {}
+  static async update ({ id, input }) {}
 }

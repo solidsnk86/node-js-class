@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/solidsnk86/node-js-class#readme",
   "dependencies": {
+    "address": "^2.0.3",
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "open": "10.1.0",
