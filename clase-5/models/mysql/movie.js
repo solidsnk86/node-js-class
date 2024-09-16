@@ -48,32 +48,38 @@ export class MovieModel {
 
   static async create ({ input }) {
     const {
-      // genre: genreInput,
+      genre: genreInput, // genre is an array
       title,
       year,
       duration,
       director,
-      poster,
-      rate
+      rate,
+      poster
     } = input
 
-    const [uuidResult] = await connection.query('SELECT UUID() uuid')
+    // todo: crear la conexión de genre
+
+    // crypto.randomUUID()
+    const [uuidResult] = await connection.query('SELECT UUID() uuid;')
     const [{ uuid }] = uuidResult
 
     try {
-      await connection.query(`
-        INSERT INTO movie (id, title, year, director, duration, poster, rate)
-        VALUES (UUID_TO_BIN("${uuid}")?, ? ,?, ?, ?, ?);,`,
-      [title, year, duration, director, poster, rate]
+      await connection.query(
+        `INSERT INTO movie (id, title, year, director, duration, poster, rate)
+          VALUES (UUID_TO_BIN("${uuid}"), ?, ?, ?, ?, ?, ?);`,
+        [title, year, director, duration, poster, rate]
       )
     } catch (e) {
+      // puede enviarle información sensible
       throw new Error('Error creating movie')
-      // Se pódría enviar el error a una traza o un servicio interno
+      // enviar la traza a un servicio interno
+      // sendLog(e)
     }
 
     const [movies] = await connection.query(
       `SELECT title, year, director, duration, poster, rate, BIN_TO_UUID(id) id
-       FROM movies WHERE id = UUID_TO_BIN(?);`, [uuid]
+        FROM movie WHERE id = UUID_TO_BIN(?);`,
+      [uuid]
     )
 
     return movies[0]
