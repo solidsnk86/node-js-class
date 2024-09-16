@@ -4,7 +4,7 @@ const DEFFAULT_CONFIG = {
   host: 'localhost',
   user: 'root',
   port: '3306',
-  password: 'miPerroMañosoNeo.2018',
+  password: '',
   database: 'moviesdb'
 }
 
