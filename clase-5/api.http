@@ -12,12 +12,12 @@ POST http://localhost:1234/movies
 Content-Type: application/json
 
 {
-  "SQL": "SELECT * FROM users",
   "title": "The Godfather",
   "year": 1975,
   "director": "Francis Ford Coppola",
   "duration": 175,
   "poster": "https://img.fruugo.com/product/4/49/14441494_max.jpg",
+  "rate": 9.5,
   "genre": [
     "Crime",
     "Drama"
@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### Borrar una película
-DELETE http://localhost:1234/movies/64d4d8825d614a4ec5984ae3
+DELETE http://localhost:1234/movies/d64cf7e2-7468-11ef-9737-74563c5c6150
 
 ### Actualizar una película
 PATCH http://localhost:1234/movies/7e3fd5ab-60ff-4ae2-92b6-9597f0308d1

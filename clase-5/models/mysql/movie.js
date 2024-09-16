@@ -4,7 +4,7 @@ const DEFFAULT_CONFIG = {
   host: 'localhost',
   user: 'root',
   port: '3306',
-  password: '',
+  password: 'miPerroMañosoNeo.2018',
   database: 'moviesdb'
 }
 
@@ -58,6 +58,17 @@ export class MovieModel {
     } = input
 
     // todo: crear la conexión de genre
+    try {
+      const [genre] = await connection.query('SELECT name FROM genre WHERE name = ?', [genreInput])
+      if (genre.affectedRows === 0) {
+        return []
+      }
+      if (genre) {
+        return genre[0]
+      }
+    } catch (e) {
+      throw new Error('Error to get genre movie')
+    }
 
     // crypto.randomUUID()
     const [uuidResult] = await connection.query('SELECT UUID() uuid;')
@@ -85,7 +96,62 @@ export class MovieModel {
     return movies[0]
   }
 
-  static async delete ({ id }) {}
+  static async delete ({ id }) {
+    try {
+      const [result] = await connection.query(`
+        DELETE FROM movie WHERE id = UUID_TO_BIN(?);`,
+      [id]
+      )
 
-  static async update ({ id, input }) {}
+      if (result.affectedRows === 0) {
+        throw new Error('Movie not found')
+      }
+
+      return { message: 'Movie deleted successfully' }
+    } catch (e) {
+      throw new Error('Error deleting movie')
+    }
+  }
+
+  static async update ({ id, input }) {
+    const {
+      genre,
+      title,
+      year,
+      duration,
+      director,
+      rate,
+      poster
+    } = input
+
+    try {
+      // La función COALESCE en SQL devuelve el primer valor no nulo de una lista de expresiones.
+      const [result] = await connection.query(`
+        UPDATE movie 
+        SET title = COALESCE(?, title),
+            year = COALESCE(?, year),
+            director = COALESCE(?, director),
+            genre = COALESCE(?, genre),
+            duration = COALESCE(?, duration),
+            poster = COALESCE(?, poster),
+            rate = COALESCE(?, rate)
+        WHERE id = UUID_TO_BIN(?);`,
+      [title, year, director, genre, duration, poster, rate, id]
+      )
+
+      if (result.affectedRows === 0) {
+        throw new Error('Movie not found')
+      }
+
+      const [updatedMovies] = await connection.query(`
+        SELECT title, year, director, duration, poster, rate, BIN_TO_UUID(id) id
+        FROM movie WHERE id = UUID_TO_BIN(?);`,
+      [id]
+      )
+
+      return updatedMovies[0]
+    } catch (e) {
+      throw new Error('Error updating movie')
+    }
+  }
 }
