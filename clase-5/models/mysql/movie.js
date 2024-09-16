@@ -1,14 +1,16 @@
 import mysql from 'mysql2/promise'
 
-const config = {
+const DEFFAUL_CONFIG = {
   host: 'localhost',
   user: 'root',
   port: '3306',
-  password: 'miPerroMañosoNeo.2018',
+  password: '',
   database: 'moviesdb'
 }
 
-const connection = await mysql.createConnection(config)
+const connectionString = process.env.DATABASE_URL ?? DEFFAUL_CONFIG
+
+const connection = await mysql.createConnection(connectionString)
 
 export class MovieModel {
   static async getAll ({ genre }) {
@@ -28,7 +30,7 @@ export class MovieModel {
     }
 
     const [movies] = await connection.query(
-      'SELECT title, year, director, poster, rate, BIN_TO_UUID(id) FROM movie;'
+      'SELECT title, year, director, duration, poster, rate, BIN_TO_UUID(id) FROM movie;'
     )
     if (movies.length === 0) return null
 
@@ -46,7 +48,7 @@ export class MovieModel {
 
   static async create ({ input }) {
     const {
-      genre: genreInput,
+      // genre: genreInput,
       title,
       year,
       duration,
@@ -55,12 +57,26 @@ export class MovieModel {
       rate
     } = input
 
-    const result = await connection.query(`
-    INSERT INTO movie (title, year, director, duration, poster, rate)
-    VALUES (?, ? ,?, ?, ?, ?);,`,
-    [title, year, duration, director, poster, rate]
+    const [uuidResult] = await connection.query('SELECT UUID() uuid')
+    const [{ uuid }] = uuidResult
+
+    try {
+      await connection.query(`
+        INSERT INTO movie (id, title, year, director, duration, poster, rate)
+        VALUES (UUID_TO_BIN("${uuid}")?, ? ,?, ?, ?, ?);,`,
+      [title, year, duration, director, poster, rate]
+      )
+    } catch (e) {
+      throw new Error('Error creating movie')
+      // Se pódría enviar el error a una traza o un servicio interno
+    }
+
+    const [movies] = await connection.query(
+      `SELECT title, year, director, duration, poster, rate, BIN_TO_UUID(id) id
+       FROM movies WHERE id = UUID_TO_BIN(?);`, [uuid]
     )
-    console.log(result)
+
+    return movies[0]
   }
 
   static async delete ({ id }) {}
