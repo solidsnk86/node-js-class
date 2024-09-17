@@ -4,3 +4,7 @@
 /clase-2/node_modules
 
 /clase-4/node_modules
+
+# local env files
+.env*.local
+.env
