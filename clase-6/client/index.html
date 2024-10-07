@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+    <script type="module">
+      import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
+
+      const socket = io()
+
+      const form = document.getElementById('form')
+      const input = document.getElementById('input')
+      const messages = document.getElementById('messages')
+
+      socket.on('chat message', (msg) => {
+        const item = `<li>${msg}</li>`
+        messages.insertAdjacentHTML('beforeend', item)
+      })
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        if (input.value) {
+          socket.emit('chat message', input.value)
+          input.value = ''
+        }
+      })
+    </script>
+    <style>
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+
+      :root {
+        color-scheme: light dark;
+      }
+
+      body {
+        margin: 0 auto;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+          sans-serif;
+        display: flex;
+        justify-content: center;
+        place-content: center;
+        height: 100vh;
+        padding: 36px;
+        grid-template-columns: 1fr;
+      }
+      #chat {
+        border: 1px solid #333;
+        border-radius: 4px;
+        overflow: hidden;
+        width: 350px;
+        height: 500px;
+        position: relative;
+      }
+      #form {
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 8px;
+        gap: 4px;
+      }
+      input {
+        outline: none;
+      }
+
+      #messages {
+        color: antiquewhite;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #messages > li {
+        padding: 8px 16px;
+      }
+
+      #messages > li:nth-child(odd) {
+        background: #09fc;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="chat">
+      <ul id="messages"></ul>
+      <form action="" id="form">
+        <input
+          type="text"
+          id="input"
+          placeholder="Escribe un mensaje"
+          autocomplete="off"
+          style="width: 80%; padding: 8px"
+        />
+        <button type="submit" style="width: 20%; padding: 8px">Enviar</button>
+      </form>
+    </section>
+  </body>
+</html>
