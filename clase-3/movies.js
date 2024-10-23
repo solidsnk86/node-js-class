@@ -31,11 +31,11 @@ const movieSchema = z.object({
   )
 })
 
-function validateMOvies(object) {
+function validateMOvies (object) {
   return movieSchema.safeParse(object)
 }
 
-function validatePartialMovies(object) {
+function validatePartialMovies (object) {
   return movieSchema.partial().safeParse(object)
 }
 

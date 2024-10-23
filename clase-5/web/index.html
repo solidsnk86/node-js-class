@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Probar API Rest</title>
     <style>
+      body {
+        display: flex;
+        justify-content: center;
+        margin: 50px auto;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
       article {
+        width: fit-content;
         border: 1px solid #ccc;
         padding: 1rem;
         margin-bottom: 1rem;
@@ -47,7 +54,7 @@
               const article = e.target.closest('article')
               const id = article.dataset.id
 
-              fetch(`http://localhost:1234/movies/${id}`, {
+              fetch(`https://rest-api-deploy-dun.vercel.app/movies/${id}`, {
                 method: 'DELETE'
               }).then((res) => {
                 if (res.ok) {

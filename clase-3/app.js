@@ -48,8 +48,9 @@ app.patch('/movies/:id', (req, res) => {
   const { id } = req.params
   const movieIndex = movies.findIndex((movie) => movie.id === id)
 
-  if (!movieIndex === -1)
+  if (!movieIndex === -1) {
     return res.status(404).json({ message: 'Movie not found' })
+  }
 })
 
 const PORT = process.env.PORT ?? 3000

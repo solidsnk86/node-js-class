@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de PDF</title>
+</head>
+<body>
+  <h1>Subir archivo PDF</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="pdf" accept="application/pdf" />
+    <button type="submit">Convertir PDF</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert(result.message);
+        } else {
+          alert(`Error: ${result.message}`);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+      }
+    });
+  </script>
+</body>
+</html>
